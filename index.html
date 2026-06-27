@@ -4,13 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Стержень — мужской трекер состояния в Telegram</title>
-<meta name="description" content="Ежедневный чек-ин, голосовой слив и разбор от «Брата» — прямо в Telegram. Без психологов, дневников и лишних объяснений.">
+<meta name="description" content="Каждый вечер за 3 минуты разбирай что происходит в голове. Голосовой слив, честный разбор от Брата — прямо в Telegram.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700&family=Mulish:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
     --bg: #0d0d0d;
     --bg2: #161616;
@@ -23,413 +22,156 @@
     --accent: #c8f06e;
     --accent-dark: #8fb840;
     --accent-text: #1a2e00;
-    --red-bg: rgba(240,100,80,0.1);
-    --red-text: #f07860;
-    --green-bg: rgba(180,240,80,0.1);
-    --green-text: #b4f050;
     --font-display: 'Unbounded', sans-serif;
     --font-body: 'Mulish', sans-serif;
     --r: 12px;
     --r-sm: 8px;
   }
-
   html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
 
   /* NAV */
-  nav {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: rgba(13,13,13,0.92);
-    backdrop-filter: blur(12px);
-    z-index: 100;
-  }
-  nav .inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo {
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -0.02em;
-    text-decoration: none;
-  }
-  .nav-cta {
-    background: var(--accent);
-    color: var(--accent-text);
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 20px;
-    border-radius: 40px;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
+  nav { padding: 20px 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(13,13,13,0.92); backdrop-filter: blur(12px); z-index: 100; }
+  nav .inner { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; text-decoration: none; }
+  .nav-cta { background: var(--accent); color: var(--accent-text); font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 8px 20px; border-radius: 40px; text-decoration: none; transition: opacity 0.2s; }
   .nav-cta:hover { opacity: 0.85; }
 
   /* HERO */
-  .hero {
-    padding: 100px 0 80px;
-    text-align: center;
-  }
-  .hero-tag {
-    display: inline-block;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 600;
-    background: rgba(200,240,110,0.1);
-    color: var(--accent);
-    border: 1px solid rgba(200,240,110,0.2);
-    border-radius: 40px;
-    padding: 5px 16px;
-    margin-bottom: 32px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 5vw, 46px);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 24px;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-  .hero-sub {
-    font-size: 17px;
-    color: var(--text2);
-    max-width: 520px;
-    margin: 0 auto 40px;
-    line-height: 1.65;
-  }
-  .hero-cta {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--accent-text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 700;
-    padding: 16px 36px;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: transform 0.15s, opacity 0.15s;
-  }
+  .hero { padding: 100px 0 80px; text-align: center; }
+  .hero-tag { display: inline-block; font-size: 12px; font-weight: 600; background: rgba(200,240,110,0.1); color: var(--accent); border: 1px solid rgba(200,240,110,0.2); border-radius: 40px; padding: 5px 16px; margin-bottom: 32px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(26px, 5vw, 44px); font-weight: 700; line-height: 1.2; letter-spacing: -0.03em; color: var(--text); margin-bottom: 24px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub { font-size: 17px; color: var(--text2); max-width: 520px; margin: 0 auto 16px; line-height: 1.65; }
+  .hero-result { font-size: 15px; color: var(--text); max-width: 480px; margin: 0 auto 40px; line-height: 1.65; background: rgba(200,240,110,0.06); border: 1px solid rgba(200,240,110,0.15); border-radius: var(--r); padding: 16px 20px; }
+  .hero-result strong { color: var(--accent); }
+  .hero-cta { display: inline-block; background: var(--accent); color: var(--accent-text); font-size: 16px; font-weight: 700; padding: 16px 36px; border-radius: 50px; text-decoration: none; transition: transform 0.15s, opacity 0.15s; }
   .hero-cta:hover { transform: translateY(-1px); opacity: 0.9; }
-  .hero-hint {
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--text3);
-  }
+  .hero-hint { margin-top: 14px; font-size: 13px; color: var(--text3); }
 
   /* SECTION */
   section { padding: 80px 0; border-top: 1px solid var(--border); }
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .section-head {
-    font-family: var(--font-display);
-    font-size: clamp(20px, 3vw, 28px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    line-height: 1.3;
-    margin-bottom: 12px;
-  }
-  .section-sub {
-    font-size: 15px;
-    color: var(--text2);
-    line-height: 1.65;
-    max-width: 560px;
-    margin-bottom: 40px;
-  }
+  .section-label { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .section-head { font-family: var(--font-display); font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
+  .section-sub { font-size: 15px; color: var(--text2); line-height: 1.65; max-width: 560px; margin-bottom: 40px; }
 
-  /* FEATURES GRID */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-  }
-  .feat-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    padding: 24px;
-    transition: border-color 0.2s;
-  }
-  .feat-card:hover { border-color: var(--border2); }
-  .feat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--r-sm);
-    background: rgba(200,240,110,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-    font-size: 18px;
-    color: var(--accent);
-  }
-  .feat-title {
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-  }
-  .feat-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  /* DEMO DIALOG */
+  .demo-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 32px; margin-bottom: 0; }
+  .demo-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
+  .dialog { display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 80%; }
+  .msg-user { align-self: flex-end; background: var(--bg3); border-radius: 16px 16px 4px 16px; padding: 12px 16px; font-size: 14px; color: var(--text2); line-height: 1.55; }
+  .msg-brat { align-self: flex-start; }
+  .msg-brat-inner { background: rgba(200,240,110,0.07); border: 1px solid rgba(200,240,110,0.15); border-radius: 16px 16px 16px 4px; padding: 14px 18px; font-size: 14px; color: var(--text); line-height: 1.6; }
+  .msg-brat-name { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 6px; letter-spacing: 0.04em; }
+  .demo-arrow { text-align: center; color: var(--text3); font-size: 20px; margin: 4px 0; }
 
-  /* HOW IT WORKS */
-  .steps { display: flex; flex-direction: column; gap: 0; }
-  .step {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: 20px;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border);
-    align-items: start;
-  }
-  .step:last-child { border-bottom: none; }
-  .step-num {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid var(--border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .step-title {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 6px;
-    letter-spacing: -0.01em;
-  }
-  .step-body { font-size: 14px; color: var(--text2); line-height: 1.6; }
-  .step-tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    border-radius: 20px;
-    padding: 3px 10px;
-    margin-top: 8px;
-    background: rgba(200,240,110,0.08);
-    color: var(--accent);
-    border: 1px solid rgba(200,240,110,0.15);
-  }
-
-  /* COMPARE TABLE */
-  .compare-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .compare-head {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: var(--r-sm);
-    text-align: center;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .head-old { background: rgba(240,120,96,0.1); color: var(--red-text); }
-  .head-new { background: rgba(180,240,80,0.1); color: var(--green-text); }
-  .compare-cell {
-    background: var(--bg2);
-    border-radius: var(--r-sm);
-    padding: 14px 16px;
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.55;
-  }
-  .cell-old { border-left: 2px solid rgba(240,120,96,0.4); }
-  .cell-new { border-left: 2px solid rgba(180,240,80,0.35); }
-
-  /* BRAT BLOCK */
-  .brat-box {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    padding: 40px;
-  }
-  .brat-quote {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 2.5vw, 24px);
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.35;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
-  }
+  /* BRAT HERO */
+  .brat-hero { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 40px; }
+  .brat-quote { font-family: var(--font-display); font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; color: var(--text); line-height: 1.35; letter-spacing: -0.02em; margin-bottom: 20px; }
   .brat-quote em { font-style: normal; color: var(--accent); }
   .brat-desc { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 24px; max-width: 560px; }
   .brat-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-  .brat-tag {
-    font-size: 12px;
-    font-weight: 500;
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    border-radius: 20px;
-    padding: 4px 14px;
-  }
-  .brat-cta {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--accent-text);
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 700;
-    padding: 12px 28px;
-    border-radius: 40px;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
+  .brat-tag { font-size: 12px; font-weight: 500; border: 1px solid var(--border2); color: var(--text2); border-radius: 20px; padding: 4px 14px; }
+  .brat-cta { display: inline-block; background: var(--accent); color: var(--accent-text); font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 40px; text-decoration: none; transition: opacity 0.2s; }
   .brat-cta:hover { opacity: 0.88; }
 
+  /* RESULTS TIMELINE */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: grid; grid-template-columns: 100px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-when { font-family: var(--font-display); font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: -0.01em; padding-top: 4px; }
+  .tl-title { font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .tl-body { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+  /* HOW IT WORKS */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); align-items: start; }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--text2); flex-shrink: 0; margin-top: 2px; }
+  .step-title { font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .step-body { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .step-tag { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 20px; padding: 3px 10px; margin-top: 8px; background: rgba(200,240,110,0.08); color: var(--accent); border: 1px solid rgba(200,240,110,0.15); }
+
+  /* NOT THERAPY */
+  .not-therapy { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 32px; }
+  .nt-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 16px; letter-spacing: -0.02em; }
+  .nt-body { font-size: 15px; color: var(--text2); line-height: 1.7; }
+  .nt-body em { font-style: normal; color: var(--text); }
+
+  /* COMPARE */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .compare-head { font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: var(--r-sm); text-align: center; letter-spacing: 0.04em; text-transform: uppercase; }
+  .head-old { background: rgba(240,120,96,0.1); color: #f07860; }
+  .head-new { background: rgba(180,240,80,0.1); color: #b4f050; }
+  .compare-cell { background: var(--bg2); border-radius: var(--r-sm); padding: 14px 16px; font-size: 13px; color: var(--text2); line-height: 1.55; }
+  .cell-old { border-left: 2px solid rgba(240,120,96,0.4); }
+  .cell-new { border-left: 2px solid rgba(180,240,80,0.35); }
+
+  /* FEATURES */
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .feat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; transition: border-color 0.2s; }
+  .feat-card:hover { border-color: var(--border2); }
+  .feat-icon { width: 40px; height: 40px; border-radius: var(--r-sm); background: rgba(200,240,110,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 18px; color: var(--accent); }
+  .feat-title { font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .feat-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* STORY */
+  .story-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 36px; }
+  .story-text { font-size: 16px; color: var(--text2); line-height: 1.75; }
+  .story-text p { margin-bottom: 16px; }
+  .story-text p:last-child { margin-bottom: 0; }
+  .story-text em { font-style: normal; color: var(--text); }
+
   /* FOR WHO */
-  .fw-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-  }
-  .fw-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    padding: 24px;
-    transition: border-color 0.2s;
-  }
+  .fw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .fw-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; transition: border-color 0.2s; }
   .fw-card:hover { border-color: var(--border2); }
-  .fw-icon {
-    font-size: 22px;
-    color: var(--accent);
-    margin-bottom: 14px;
-    display: block;
-  }
-  .fw-title {
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-  }
+  .fw-icon { font-size: 22px; color: var(--accent); margin-bottom: 14px; display: block; }
+  .fw-title { font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; letter-spacing: -0.01em; }
   .fw-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
 
+  /* FREE BLOCK */
+  .free-box { background: rgba(200,240,110,0.05); border: 1px solid rgba(200,240,110,0.15); border-radius: var(--r); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .free-text { font-size: 15px; color: var(--text2); line-height: 1.65; max-width: 500px; }
+  .free-text strong { color: var(--text); }
+  .free-btn { background: var(--accent); color: var(--accent-text); font-size: 14px; font-weight: 700; padding: 12px 24px; border-radius: 40px; text-decoration: none; white-space: nowrap; transition: opacity 0.2s; }
+  .free-btn:hover { opacity: 0.88; }
+
   /* FINAL CTA */
-  .final-cta {
-    padding: 80px 0;
-    text-align: center;
-  }
-  .final-cta h2 {
-    font-family: var(--font-display);
-    font-size: clamp(22px, 4vw, 36px);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    line-height: 1.25;
-    margin-bottom: 16px;
-  }
+  .final-cta { padding: 80px 0; text-align: center; }
+  .final-cta h2 { font-family: var(--font-display); font-size: clamp(22px, 4vw, 36px); font-weight: 700; letter-spacing: -0.03em; color: var(--text); line-height: 1.25; margin-bottom: 16px; }
   .final-cta h2 em { font-style: normal; color: var(--accent); }
   .final-cta p { font-size: 15px; color: var(--text2); margin-bottom: 36px; line-height: 1.65; }
-  .final-btn {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--accent-text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 700;
-    padding: 17px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: transform 0.15s, opacity 0.15s;
-  }
+  .final-btn { display: inline-block; background: var(--accent); color: var(--accent-text); font-size: 16px; font-weight: 700; padding: 17px 40px; border-radius: 50px; text-decoration: none; transition: transform 0.15s, opacity 0.15s; }
   .final-btn:hover { transform: translateY(-2px); opacity: 0.9; }
-  .final-hints {
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--text3);
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
+  .final-hints { margin-top: 16px; font-size: 13px; color: var(--text3); display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
   .final-hints span::before { content: "· "; }
 
   /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 28px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .footer-logo {
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--accent);
-    text-decoration: none;
-  }
+  footer { border-top: 1px solid var(--border); padding: 28px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .footer-logo { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent); text-decoration: none; }
   .footer-copy { font-size: 13px; color: var(--text3); }
 
   /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   .hero > * { animation: fadeUp 0.6s ease both; }
   .hero .hero-tag { animation-delay: 0.05s; }
   .hero h1 { animation-delay: 0.15s; }
-  .hero .hero-sub { animation-delay: 0.25s; }
+  .hero .hero-sub { animation-delay: 0.22s; }
+  .hero .hero-result { animation-delay: 0.28s; }
   .hero .hero-cta { animation-delay: 0.35s; }
   .hero .hero-hint { animation-delay: 0.4s; }
 
   @media (max-width: 600px) {
     .compare-grid { grid-template-columns: 1fr; }
-    .brat-box { padding: 24px; }
+    .brat-hero { padding: 24px; }
     .hero { padding: 60px 0 50px; }
     footer { flex-direction: column; text-align: center; }
     .final-hints { flex-direction: column; gap: 6px; }
+    .tl-item { grid-template-columns: 80px 1fr; gap: 16px; }
+    .free-box { flex-direction: column; }
   }
 </style>
 </head>
@@ -449,19 +191,169 @@
 <div class="container">
   <div class="hero">
     <div class="hero-tag">Telegram Mini App · бесплатно</div>
-    <h1>Есть что-то,<br>что <em>накопилось?</em><br>Выговорись. Разберём вместе.</h1>
-    <p class="hero-sub">Стержень — мужской трекер состояния в Telegram. Каждый день: короткий чек-ин, голосовой слив и разбор от «Брата» — без психологов, дневников и лишних объяснений.</p>
-    <a class="hero-cta" href="https://t.me/sterzhens_bot">Открыть Стержень в Telegram →</a>
-    <p class="hero-hint">Первый чек-ин — меньше минуты. Отдельное приложение не нужно.</p>
+    <h1>Мужчины редко говорят<br>о том, что <em>происходит внутри.</em><br>Поэтому появился Стержень.</h1>
+    <p class="hero-sub">Каждый вечер за 3 минуты разбирай что накопилось — голосом или текстом. Получай честный разбор от Брата. Прямо в Telegram.</p>
+    <div class="hero-result">
+      <strong>Через неделю</strong> начнёшь замечать что именно тебя регулярно выбивает из колеи.<br>
+      <strong>Через месяц</strong> увидишь повторяющиеся сценарии, которые раньше не замечал.
+    </div>
+    <a class="hero-cta" href="https://t.me/sterzhens_bot">Написать Брату →</a>
+    <p class="hero-hint">Первый разбор — бесплатно. Меньше минуты. Отдельное приложение не нужно.</p>
   </div>
 </div>
+
+<!-- DEMO -->
+<section>
+  <div class="container">
+    <div class="section-label">Как это выглядит</div>
+    <h2 class="section-head">Говоришь как есть. Брат разбирает.</h2>
+    <p class="section-sub">Не нужно красиво формулировать. Просто скажи что происходит — и получи короткий, честный разбор.</p>
+    <div class="demo-wrap">
+      <div class="demo-label">Пример разбора</div>
+      <div class="dialog">
+        <div class="msg">
+          <div class="msg-user">Сегодня всё бесит. Работа навалилась, дома напряжение. Не понимаю что вообще происходит. Просто устал.</div>
+        </div>
+        <div class="demo-arrow">↓</div>
+        <div class="msg msg-brat">
+          <div class="msg-brat-name">БРАТ</div>
+          <div class="msg-brat-inner">
+            Похоже, ты уже несколько дней живёшь в режиме перегрузки — работа и дом давят одновременно, и нет момента где можно выдохнуть.<br><br>
+            Раздражение сейчас — это не слабость. Это сигнал что система работает на пределе.<br><br>
+            Тебе сейчас не нужен героизм. Сделай один вечер без работы и без решения проблем. Просто один. Завтра голова будет яснее — и решения будут приниматься проще.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAT -->
+<section>
+  <div class="container">
+    <div class="section-label">Кто такой Брат</div>
+    <h2 class="section-head">Не ИИ. Не психолог. Просто Брат.</h2>
+    <p class="section-sub">Когда совсем не хочется кому-то писать — напиши Брату.</p>
+    <div class="brat-hero">
+      <div class="brat-quote">«Иногда нужен не совет.<br>Нужен кто-то, кто спокойно скажет:<br><em>"Вот что я вижу."</em>»</div>
+      <p class="brat-desc">Брат не читает лекции и не занимается терапией. Он слушает, замечает что ты сам не замечаешь — и говорит прямо. Что сейчас происходит, где перегруз, какой один шаг можно сделать прямо сейчас. Без воды, без осуждения, без лишних вопросов.</p>
+      <div class="brat-tags">
+        <span class="brat-tag">Говорит прямо</span>
+        <span class="brat-tag">Без осуждения</span>
+        <span class="brat-tag">Без длинных лекций</span>
+        <span class="brat-tag">По делу</span>
+        <span class="brat-tag">Без пафоса</span>
+      </div>
+      <a class="brat-cta" href="https://t.me/sterzhens_bot">Написать Брату →</a>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section>
+  <div class="container">
+    <div class="section-label">Что меняется</div>
+    <h2 class="section-head">Результат — не сразу. Но стабильно.</h2>
+    <p class="section-sub">Стержень работает как накопительный эффект. Каждый чек-ин добавляет кусочек ясности.</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-when">День 1</div>
+        <div>
+          <div class="tl-title">Первый раз выговорился без фильтров</div>
+          <div class="tl-body">Голосом или текстом — как есть. Брат разбирает. Уже легче.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">Неделя</div>
+        <div>
+          <div class="tl-title">Начинаешь замечать триггеры</div>
+          <div class="tl-body">Видишь что именно тебя выбивает из колеи. Не догадки — данные из твоих же чек-инов.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">Месяц</div>
+        <div>
+          <div class="tl-title">Видишь повторяющиеся сценарии</div>
+          <div class="tl-body">Закономерности которые раньше не замечал — теперь очевидны. Начинаешь их менять.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">3 месяца</div>
+        <div>
+          <div class="tl-title">Перестаёшь копить</div>
+          <div class="tl-body">Не доводишь до перегрева. Замечаешь состояние раньше — и реагируешь раньше.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOT THERAPY -->
+<section>
+  <div class="container">
+    <div class="section-label">Важно понимать</div>
+    <h2 class="section-head">Это не терапия. Это ежедневная привычка.</h2>
+    <div style="height:20px"></div>
+    <div class="not-therapy">
+      <div class="nt-title">Стержень — инструмент, не замена специалисту</div>
+      <p class="nt-body">
+        <em>Это не терапия и не замена психологу.</em> Если тебе нужна профессиональная помощь — обратись к специалисту.<br><br>
+        Стержень — это ежедневная привычка замечать своё состояние. Как чистка зубов, только для головы. Три минуты вечером, честный взгляд на себя — и постепенно становится яснее что происходит и что с этим делать.<br><br>
+        <em>Без пафоса. Без токсичной маскулинности. Просто инструмент разобраться в себе.</em>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">Как это работает</div>
+    <h2 class="section-head">Открыл Telegram — и понеслась</h2>
+    <p class="section-sub">Четыре шага. Занимает меньше чем чашка кофе.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Открываешь Стержень в Telegram</div>
+          <div class="step-body">Одна кнопка — и ты внутри. Ничего не скачиваешь, не регистрируешься отдельно.</div>
+          <span class="step-tag">Отдельное приложение не нужно</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Делаешь дневной чек-ин</div>
+          <div class="step-body">Настроение, энергия, стресс — три касания, полминуты. Хороший день, плохой, никакой — всё подходит.</div>
+          <span class="step-tag">~30 секунд</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Выговариваешься голосом — если накопилось</div>
+          <div class="step-body">Жмёшь запись и говоришь как есть. Не нужно думать как сформулировать. Просто слив того что накопилось.</div>
+          <span class="step-tag">Необязательный шаг</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Получаешь разбор от Брата</div>
+          <div class="step-body">Коротко и по делу: что сейчас происходит, где перегруз и что можно сделать. Без воды и лекций.</div>
+          <span class="step-tag">Честно и прямо</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FEATURES -->
 <section>
   <div class="container">
-    <div class="section-label">Что умеет Стержень</div>
+    <div class="section-label">Что внутри</div>
     <h2 class="section-head">Три минуты в день — и голова чище</h2>
-    <p class="section-sub">Не нужно вести дневник или идти к психологу. Просто открываешь, отмечаешь как есть — и получаешь короткий разбор.</p>
+    <p class="section-sub">Всё что нужно — в одном месте. Без лишнего.</p>
     <div class="features-grid">
       <div class="feat-card">
         <div class="feat-icon">
@@ -475,70 +367,27 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
         </div>
         <div class="feat-title">Голосовой слив</div>
-        <div class="feat-body">Накопилось — просто записываешь голосом. Не нужно красиво формулировать. Говори как есть, Стержень разберётся.</div>
+        <div class="feat-body">Накопилось — записываешь голосом. Не нужно красиво формулировать. Говори как есть, Стержень разберётся.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
-        <div class="feat-title">Разбор от «Брата»</div>
-        <div class="feat-body">Получаешь короткий, честный разбор: что происходит, где перегруз и какой следующий шаг можно сделать прямо сейчас.</div>
+        <div class="feat-title">Разбор от Брата</div>
+        <div class="feat-body">Получаешь короткий честный разбор: что происходит, где перегруз и какой следующий шаг можно сделать прямо сейчас.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
-        <div class="feat-title">Patterns</div>
-        <div class="feat-body">Стержень замечает закономерности — что чаще выбивает тебя из состояния и какие действия реально помогают вернуться в норму.</div>
+        <div class="feat-title">Закономерности</div>
+        <div class="feat-body">Стержень замечает повторяющиеся сценарии — что чаще выбивает тебя из состояния и что реально помогает вернуться в норму.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section>
-  <div class="container">
-    <div class="section-label">Как это работает</div>
-    <h2 class="section-head">Открыл Telegram — и понеслась</h2>
-    <p class="section-sub">Четыре шага. Занимает меньше, чем чашка кофе.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <div class="step-title">Открываешь Стержень в Telegram</div>
-          <div class="step-body">Нажимаешь одну кнопку — и всё. Ничего не скачиваешь, не регистрируешься с нуля. Уже внутри.</div>
-          <span class="step-tag">Отдельное приложение не нужно</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <div class="step-title">Делаешь дневной чек-ин</div>
-          <div class="step-body">Отмечаешь настроение, энергию, стресс — три касания, полминуты. Хороший день, плохой, никакой — всё подходит.</div>
-          <span class="step-tag">~30 секунд</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <div class="step-title">Выговариваешься голосом — если накопилось</div>
-          <div class="step-body">Жмёшь запись и говоришь как есть. Не нужно думать как сформулировать — просто слив того, что накопилось.</div>
-          <span class="step-tag">Необязательный шаг</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>
-          <div class="step-title">Получаешь разбор от «Брата»</div>
-          <div class="step-body">Стержень коротко раскладывает по полкам: что сейчас происходит, где перегруз и что можно сделать. Без воды и лекций.</div>
-          <span class="step-tag">Честно и по делу</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- NOT A DIARY -->
+<!-- COMPARE -->
 <section>
   <div class="container">
     <div class="section-label">Почему не обычный дневник</div>
@@ -550,31 +399,43 @@
       <div class="compare-cell cell-old">Надо садиться и писать. Каждый день. Красиво и развёрнуто.</div>
       <div class="compare-cell cell-new">Три касания и полминуты. Или голосом — как есть, без формулировок.</div>
       <div class="compare-cell cell-old">Записал — и всё. Никто не помог разобраться что происходит.</div>
-      <div class="compare-cell cell-new">«Брат» коротко раскладывает по полкам после каждого чек-ина.</div>
-      <div class="compare-cell cell-old">Отдельное приложение, которое надо открывать специально.</div>
+      <div class="compare-cell cell-new">Брат коротко раскладывает по полкам после каждого чек-ина.</div>
+      <div class="compare-cell cell-old">Отдельное приложение которое надо открывать специально.</div>
       <div class="compare-cell cell-new">Прямо в Telegram. Там, где ты уже есть каждый день.</div>
-      <div class="compare-cell cell-old">Через месяц понятия не имеешь, что повторяется и почему.</div>
-      <div class="compare-cell cell-new">Patterns показывает закономерности — что выбивает и что помогает.</div>
+      <div class="compare-cell cell-old">Через месяц понятия не имеешь что повторяется и почему.</div>
+      <div class="compare-cell cell-new">Закономерности показывают что выбивает и что помогает.</div>
     </div>
   </div>
 </section>
 
-<!-- BRAT -->
+<!-- STORY -->
 <section>
   <div class="container">
-    <div class="section-label">Разбор от «Брата»</div>
-    <h2 class="section-head">Не психолог. Не коуч. Просто честно.</h2>
+    <div class="section-label">Почему Стержень существует</div>
+    <h2 class="section-head">Его создал человек, который сам искал такой инструмент</h2>
     <div style="height:20px"></div>
-    <div class="brat-box">
-      <div class="brat-quote">«Брат не читает лекции.<br>Он говорит что видит — и <em>что с этим делать.</em>»</div>
-      <p class="brat-desc">Ты проходишь чек-ин или записываешь голосовой слив — Стержень коротко раскладывает ситуацию по полкам. Что сейчас происходит, где перегруз, что повторяется и какой один шаг можно сделать прямо сейчас. Без воды, без драматизации, без лишних вопросов.</p>
-      <div class="brat-tags">
-        <span class="brat-tag">Говорит прямо</span>
-        <span class="brat-tag">Без осуждения</span>
-        <span class="brat-tag">Без длинных лекций</span>
-        <span class="brat-tag">По делу</span>
+    <div class="story-box">
+      <div class="story-text">
+        <p>Я долго искал простой способ регулярно разбираться со своим состоянием — не превращая это в ведение дневника и не идя к психологу по любому поводу.</p>
+        <p>Хотелось что-то простое. Открыл, выговорился, получил ясность — и дальше. <em>Без ритуалов, без обязательств, без ощущения что ты "работаешь над собой".</em></p>
+        <p>Такого не было. Поэтому появился Стержень.</p>
       </div>
-      <a class="brat-cta" href="https://t.me/sterzhens_bot">Попробовать разбор →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FREE -->
+<section>
+  <div class="container">
+    <div class="section-label">Почему бесплатно</div>
+    <h2 class="section-head">Попробуй один раз. Останешься сам.</h2>
+    <div style="height:20px"></div>
+    <div class="free-box">
+      <div class="free-text">
+        <strong>Первый разбор — бесплатно.</strong> Без карты, без подписки, без давления.<br>
+        Попробуй. Если поймёшь что это помогает — останешься. Это снимает все вопросы.
+      </div>
+      <a class="free-btn" href="https://t.me/sterzhens_bot">Попробовать →</a>
     </div>
   </div>
 </section>
@@ -584,33 +445,25 @@
   <div class="container">
     <div class="section-label">Для кого Стержень</div>
     <h2 class="section-head">Если хоть одно про тебя — заходи.</h2>
-    <p class="section-sub">Не нужно быть в кризисе. Достаточно чувствовать, что что-то накапливается.</p>
+    <p class="section-sub">Не нужно быть в кризисе. Достаточно чувствовать что что-то накапливается.</p>
     <div class="fw-grid">
       <div class="fw-card">
-        <span class="fw-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </span>
+        <span class="fw-icon">🔒</span>
         <div class="fw-title">Держишь всё в себе</div>
-        <div class="fw-body">Проще выговориться голосом, чем объяснять кому-то. Стержень выслушает и поможет посмотреть на ситуацию спокойнее.</div>
+        <div class="fw-body">Проще выговориться голосом чем объяснять кому-то. Стержень выслушает и поможет посмотреть на ситуацию спокойнее.</div>
       </div>
       <div class="fw-card">
-        <span class="fw-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </span>
+        <span class="fw-icon">⚡</span>
         <div class="fw-title">Часто перегружаешься</div>
-        <div class="fw-body">День вроде прошёл нормально, но внутри накопилась усталость и раздражение. Чек-ин помогает это заметить раньше, чем накроет.</div>
+        <div class="fw-body">День вроде прошёл нормально, но внутри накопилась усталость и раздражение. Чек-ин помогает это заметить раньше чем накроет.</div>
       </div>
       <div class="fw-card">
-        <span class="fw-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-        </span>
+        <span class="fw-icon">🔍</span>
         <div class="fw-title">Хочешь понимать себя лучше</div>
-        <div class="fw-body">Patterns покажет что реально влияет на твоё состояние — сон, работа, нагрузка, отношения. Не догадки, а данные.</div>
+        <div class="fw-body">Закономерности покажут что реально влияет на твоё состояние — сон, работа, нагрузка, отношения. Не догадки, а данные.</div>
       </div>
       <div class="fw-card">
-        <span class="fw-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
-        </span>
+        <span class="fw-icon">📱</span>
         <div class="fw-title">Не любишь сложные приложения</div>
         <div class="fw-body">Всё прямо в Telegram. Открыл, отметил состояние, получил разбор. Ничего лишнего.</div>
       </div>
@@ -621,8 +474,8 @@
 <!-- FINAL CTA -->
 <div class="container">
   <div class="final-cta">
-    <h2>Сделай первый чек-ин.<br>Посмотри что скажет <em>«Брат».</em></h2>
-    <p>Первый разбор — бесплатно. Занимает меньше минуты.<br>Отдельное приложение не нужно.</p>
+    <h2>Напиши Брату.<br>Посмотри что он <em>скажет.</em></h2>
+    <p>Первый разбор бесплатно. Занимает меньше минуты.<br>Отдельное приложение не нужно.</p>
     <a class="final-btn" href="https://t.me/sterzhens_bot">Открыть Стержень в Telegram →</a>
     <div class="final-hints">
       <span>Прямо в Telegram</span>
